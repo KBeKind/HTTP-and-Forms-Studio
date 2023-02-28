@@ -2,18 +2,70 @@
 
 <head>
 	<meta charset="utf-8">
+	<link rel="stylesheet" href="styles.css">
 	<script>
 		// TODO: create a handler
-    window.addEventListener("load", function(){
-        // TODO: register the handler
-    });
+		window.addEventListener("load", function (event) {
+			const actions = {
+				google: "https://www.google.com/search",
+				duckduckgo: 'https://www.duckduckgo.com',
+				bing: 'https://www.bing.com/search',
+				ask: 'https://www.ask.com/web'
+			};
+
+			const searchForm = document.querySelector('#searchForm');
+			const textInput = document.getElementById('text-input');
+
+			function setSearchEngine() {
+
+				const selectedEngine = document.querySelector('input[name="engine"]:checked');
+
+				return actions[selectedEngine.value];
+			};
+
+			searchForm.addEventListener("submit", function (event) {
+				let cancel = false;
+
+				if (textInput.value.length === 0) {
+					alert("You must enter something to search in the text box.");
+					event.preventDefault();
+					cancel = true;
+
+
+				} else if (!document.querySelector('input[name="engine"]:checked')) {
+					alert('You must select a search engine.');
+
+					event.preventDefault();
+					cancel = true;
+				}
+				if (cancel === false) {
+					searchForm.setAttribute('action', setSearchEngine());
+
+				}
+
+			});
+		});
 	</script>
 </head>
 
 <body>
 
 	<form id="searchForm">
-    <!-- TODO: add form elements -->
+		<!-- TODO: add form elements -->
+		<input type="text" name="q" id="text-input">
+		<div id="radio-button-area">
+			<input type="radio" id="google" name="engine" value="google">
+			<label for="google">Google</label><br>
+			<input type="radio" id="duckduckgo" name="engine" value="duckduckgo">
+			<label for="duckduckgo">DuckDuckGo</label><br>
+			<input type="radio" id="bing" name="engine" value="bing">
+			<label for="bing">Bing</label>
+			<input type="radio" id="ask" name="engine" value="ask">
+			<label for="ask">Ask</label>
+		</div>
+		<div>
+			<input type="submit" value="Go!">
+		</div>
 	</form>
 
 </body>
